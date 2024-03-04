@@ -8,11 +8,10 @@ def clean_corpus(chat_export_file):
 
 
 def remove_chat_metadata(chat_export_file):
-    date_time = r"(\d+\/\d+\/\d+,\s\d+:\d+)"  # e.g. "9/16/22, 06:34"
-    dash_whitespace = r"\s-\s"  # " - "
-    username = r"([\w\s]+)"  # e.g. "Martin"
+    date_time_am_pm_dash = r"\d+\/\d+\/\d+,\s\d+:\d+\s\w\w\s-\s"  #"9/16/22 am/pm,  " - "
+    username = r"[\w\s]+.[\s\w]+"  # Brian and Erwin name
     metadata_end = r":\s"  # ": "
-    pattern = date_time + dash_whitespace + username + metadata_end
+    pattern = date_time_am_pm_dash + username + metadata_end
 
     with open(chat_export_file, "r") as corpus_file:
         content = corpus_file.read()
@@ -26,4 +25,6 @@ def remove_non_message_text(export_text_lines):
     filter_out_msgs = ("<Media omitted>",)
     return tuple((msg for msg in messages if msg not in filter_out_msgs))
 
-clean_corpus("chat_brother.txt")
+
+file_test = clean_corpus("chat_brother.txt")
+print(file_test)
