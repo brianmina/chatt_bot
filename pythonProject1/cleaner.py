@@ -26,5 +26,3 @@ def remove_non_message_text(export_text_lines):
     return tuple((msg for msg in messages if msg not in filter_out_msgs))
 
 
-file_test = clean_corpus("chat_brother.txt")
-print(file_test)
