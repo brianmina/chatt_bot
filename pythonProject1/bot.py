@@ -1,6 +1,7 @@
 # bot.py
 
 from chatterbot import ChatBot
+# Uncomment the following lines to enable verbose logging
 from chatterbot.logic.logic_adapter import LogicAdapter
 from chatterbot.preprocessors import *
 from chatterbot.storage import StorageAdapter
@@ -8,7 +9,9 @@ from cleaner import clean_corpus
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.trainers import UbuntuCorpusTrainer
+import logging
 
+logging.basicConfig(level=logging.INFO)
 # chatbot.storage.drop() #.... only for reset the db.
 
 basic_conversation = [
@@ -21,7 +24,16 @@ basic_conversation = [
     "You're welcome."
 ]
 
-chatbot = ChatBot("TARS")
+chatbot = ChatBot(
+    "TARS",
+    storage_adapter='chatterbot.storage.SQLStorageAdapter)',
+    database_uri=None,
+    logic_adapters=[
+        'chatterbot.logic.MathematicalEvaluation',
+        'chatterbot.logic.TimeLogicAdapter',
+        'chatterbot.logic.BestMatch'
+    ])
+
 trainer = ListTrainer(chatbot)
 trainer.train(basic_conversation)
 
