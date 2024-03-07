@@ -1,34 +1,30 @@
 # bot.py
 
 from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
+from chatterbot.logic.logic_adapter import LogicAdapter
+from chatterbot.preprocessors import *
+from chatterbot.storage import StorageAdapter
 from cleaner import clean_corpus
+from chatterbot.trainers import ListTrainer
+from chatterbot.trainers import ChatterBotCorpusTrainer
+from chatterbot.trainers import UbuntuCorpusTrainer
 
+# chatbot.storage.drop() #.... only for reset the db.
 
-CORPUS_FILE = "chat_brother.txt"
+basic_conversation = [
+    "Hello",
+    "Hi there!",
+    "How are you doing?",
+    "I'm doing great.",
+    "That is good to hear",
+    "Thank you.",
+    "You're welcome."
+]
 
-chatbot = ChatBot(
-    "My ChatterBot",
-    logic_adapters=[
-        "chatterbot.logic.BestMatch"
-    ]
-)
-# chatbot.storage.drop() .... only for reset the db.
+chatbot = ChatBot("TARS")
 trainer = ListTrainer(chatbot)
+trainer.train(basic_conversation)
 
-cleaned_corpus = clean_corpus(CORPUS_FILE)
-trainer.train(["hola",
-               "ole",])
-trainer.train(["hello",
-               "que anda haciendo?",
-               "diga un numero",
-               "para que?"])
-chatbot = ChatBot(
-    "My ChatterBot",
-    logic_adapters=[
-        "chatterbot.logic.BestMatch"
-    ]
-)
 
 exit_conditions = (":q", "quit", "exit")
 while True:
