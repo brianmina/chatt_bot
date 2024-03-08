@@ -26,16 +26,14 @@ basic_conversation = [
 
 chatbot = ChatBot(
     "TARS",
-    storage_adapter='chatterbot.storage.SQLStorageAdapter)',
-    database_uri=None,
+    storage_adapter='chatterbot.storage.SQLStorageAdapter',
+    database_uri='sqlite:///database.sqlite3',
     logic_adapters=[
         'chatterbot.logic.MathematicalEvaluation',
         'chatterbot.logic.TimeLogicAdapter',
         'chatterbot.logic.BestMatch'
-    ])
-
-trainer = ListTrainer(chatbot)
-trainer.train(basic_conversation)
+    ]
+)
 
 
 exit_conditions = (":q", "quit", "exit")
@@ -45,3 +43,6 @@ while True:
         break
     else:
         print(f"🪴 {chatbot.get_response(query)}")
+
+trainer = ListTrainer(chatbot)
+trainer.train(basic_conversation)
